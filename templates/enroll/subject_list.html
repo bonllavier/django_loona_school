@@ -1,0 +1,35 @@
+{% extends '_base.html' %}
+
+{% block title %}Materias{% endblock %}
+
+{% block content %}
+{% if user.is_authenticated %}
+    {% if user.role == "profesor" %}
+        <table class="table table-light table-bordered">
+            <thead class="thead-light">
+                <tr>
+                    <th>Nombre Materia</th>
+                    <th>Codigo</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for subject in subject_list %}
+                <tr>
+                        <td>{{subject.name}}</td>
+                        <td>{{subject.code}}</td>
+                        <td><a href="add/{{subject.id}}" class="btn btn-primary rounded-pill">AGREGAR</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <h1>ACCESO NO AUTORIZADO</h1>
+    {% endif %}
+
+{% else %}
+    <p>Por favor Inicie Sesion para ver esta pagina.</p>
+{% endif %}
+
+
+{% endblock content %}

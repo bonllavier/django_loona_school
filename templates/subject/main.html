@@ -1,0 +1,107 @@
+{% extends '_base.html' %}
+
+{% block title %}Bienvenido al Aula Virtual{% endblock %}
+
+{% block content %}
+{% if user.is_authenticated %}
+    <div class="bg-primary text-white text-center p-3" style="border-radius: 35px 35px 0 0;">
+        <h1><a href="/classroom/">Aula Virtual</a> </h1>
+    </div>
+    <div class="container bg-light mt-1 pb-3 pt-3">
+        <h2><span class="text-capitalize">Modo:</span><span class="badge badge-secondary">{{ user.role }}</span></h2>
+        {% if user.role == "profesor" %}
+            <h3 >Permisos Especiales: <span class="badge badge-secondary">Puede editar calificaciones</span></h3>
+        {% else %}
+            <h3 >Permisos Especiales: <span class="badge badge-secondary">Ninguno</span></h3>
+        {% endif %}
+    </div>
+
+    <hr>
+    <div class="text-center bg-success text-white p-3 mb-2" style="border-radius: 35px 35px 0 0;">
+        <h1>{{subject_info.name}} - {{subject_info.code}}</h1>
+    </div>
+    <section>
+        <div class="row">
+            <div class="col-sm-8 border border-success shadow rounded">
+                <section>
+                    <h3>Informacion General:</h3>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magni consequuntur deleniti ullam unde nobis? Sint minima culpa ex fugit facere excepturi modi, ab tenetur officia provident nam quasi libero nobis!</p>
+                </section>
+                <hr>
+                {% if user.role != "profesor" %}
+                    <section>
+                        <h3>Libreta / Calificaciones:</h3>
+                        <table class="table table-light table-bordered">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>1er Parcial</th>
+                                    <th>2do Parcial</th>
+                                    <th>3er Parcial</th>
+                                    <th>Examen Final</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    {% for grade in grades_by_student %}
+                                        <td>{{grade.first_trimester}}</td>
+                                        <td>{{grade.second_trimester}}</td>
+                                        <td>{{grade.third_trimester}}</td>
+                                        <td>{{grade.final_exam}}</td>
+                                    {% endfor %}
+                                </tr>
+                            </tbody>
+                        </table>
+                        <p>Observaciones: Ninguna</p>
+                    </section>
+                {% endif %}
+                <hr>
+                <section>
+                    <h3>Tareas</h3>
+                    <ul>
+                        <li>DEBER 1</li>
+                        <li>DEBER 2</li>
+                        <li>INVESTIGACION 1</li>
+                        <li>INVESTIGACION 2</li>
+                    </ul>
+                </section>
+                <hr>
+                <section>
+                    <h3>Planificacion:</h3>
+                    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quasi eum eius error dolorum natus dolore dignissimos itaque, beatae ut earum distinctio minus excepturi quae iure adipisci dolores veritatis, totam maiores.</p>
+                    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quas quibusdam nam itaque, porro rerum sapiente quo voluptas autem laudantium recusandae sint qui, esse, nemo odio ipsum asperiores dolore iure nulla!</p>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio eveniet aperiam atque, doloribus amet ipsam quam nobis cupiditate deserunt, tempore adipisci nulla molestias accusantium quisquam consequatur neque eaque eum ratione.</p>
+                </section>
+                
+            </div>
+            <div class="col-sm-4 border border-success shadow rounded">
+                <h3>Estudiantes:</h3>
+                <ul>
+                    {% for student in student_list %}
+                        <li>
+                            {% if user.role == "profesor" %}
+                                <span class="glyphicon glyphicon-pencil"></span>
+                                {% for grade in student.1 %}
+                                    <a href="grade/{{grade.id}}">{{student.0.first_name}} {{student.0.last_name}}</a>
+                                {% endfor %}
+                                <span class="badge badge-secondary">EDITAR NOTAS</span>
+
+
+                            {% else %}
+                                <span>{{student.0.first_name}} {{student.0.last_name}}</span>
+                            {% endif %}
+                        </li>
+                    {% endfor %}
+                </ul>
+
+            </div>
+        </div>
+    </section>
+
+
+
+{% else %}
+    <p>Por favor Inicie Sesion para ver esta pagina.</p>
+{% endif %}
+
+
+{% endblock content %}

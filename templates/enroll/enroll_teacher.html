@@ -1,0 +1,25 @@
+{% extends '_base.html' %}
+
+{% block title %}Registre su Curso{% endblock %}
+
+{% block content %}
+{% if user.is_authenticated %}
+
+        <form method="post">{% csrf_token %}
+            <div class="text-center">
+                <h2>{{subject_list.name}}</h2>
+                <h3>Horario:</h3>
+                <p>{{subject_list.schedule}}</p>
+                <h4>Descripcion:</h4>
+                <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptate, cum. Aliquam consequatur iure, accusantium nesciunt iusto ex voluptatum laboriosam rerum illum? Quod laudantium eum eius expedita harum ducimus odit vitae?</p>
+                <input type="number" name="fk_idteacher" value="{{user.id}}" style="display: none;">
+                <button type="submit" class="btn btn-primary">REGISTRAR</button>
+            </div>
+
+        </form>
+{% else %}
+    <p>Por favor Inicie Sesion para ver esta pagina.</p>
+{% endif %}
+
+
+{% endblock content %}

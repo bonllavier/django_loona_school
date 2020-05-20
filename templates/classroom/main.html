@@ -1,0 +1,100 @@
+{% extends '_base.html' %}
+
+{% block title %}Bienvenido al Aula Virtual{% endblock %}
+
+{% block content %}
+{% if user.is_authenticated %}
+    <div class="bg-primary text-white text-center p-3" style="border-radius: 35px 35px 0 0;">
+        <h1>Aula Virtual</h1>
+    </div>
+    <div class="container bg-light mt-1 pb-3 pt-3">
+        <div class="row">
+            <div class="col-sm-6">
+                <h2><span class="text-capitalize">{{ user.role }}:</span><span class="badge badge-secondary">{{ user.username }}</span></h2>
+                <h3 >ID: <span class="badge badge-secondary">{{user.id}}</span></h3>
+            </div>
+            <div class="col-sm-6">
+                {% if user.fk_idclassroom.id == null %}
+                    <h5>Registro / Enlistarse:</h5>
+                        {% if user.role == "profesor" %}
+                        <a href="enroll/subject_list/" class="btn btn-primary w-100 p-3 rounded-pill shadow rounded">
+                            Registrarse en Materias
+                        {% else %}
+                        <a href="enroll/{{user.id}}" class="btn btn-primary w-100 p-3 rounded-pill shadow rounded">
+                            Registrarse en Curso
+                        {% endif %}
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+
+    </div>
+
+    <hr>
+    <div class="text-center bg-success text-white p-3 mb-2" style="border-radius: 35px 35px 0 0;">
+        <h1>Materias:</h1>
+    </div>
+    
+    {% if user.role == "profesor" %}
+        {% regroup subjects_by_teacher by fk_idclassroom as classrooms_list_filtered %}
+    {% else %}
+        {% regroup subjects_by_student by fk_idclassroom as classrooms_list_filtered %}
+    {% endif %}
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            {% for class_name in classrooms_list_filtered %}
+                <li class="nav-item">
+                    <a class="nav-link {% if forloop.counter == 1 %}active{% endif %}" id="{{class_name.grouper.code}}-tab" data-toggle="tab" href="#{{class_name.grouper.code}}" role="tab" aria-controls="{{class_name.grouper.code}}" aria-selected="{% if forloop.counter == 1 %}true{% endif %}">{{ class_name.grouper.name }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+        <div class="tab-content bg-light" id="myTabContent">
+            {% for class_name in classrooms_list_filtered %}
+                <div class="tab-pane fade {% if forloop.counter == 1 %}show active{% endif %}" id="{{class_name.grouper.code}}" role="tabpanel" aria-labelledby="{{class_name.grouper.code}}-tab">
+                    {% for subject in class_name.list %}
+                        <div class="card m-3 border border-success shadow rounded">
+                            <div class="card-header display-4">
+                                {{ subject.name }}
+                            </div>
+                            <div class="card-body bg-white text-dark">
+                                <h5 class="card-title">CODIGO: {{ subject.code }}</h5>
+                                <p class="card-text bg-secondary text-white p-3">Horario: {{ subject.schedule }}</p>
+                                <div class="text-center">
+                                    <a href="subject/{{subject.id}}" class="btn btn-primary w-50 p-3 rounded-pill shadow rounded">IR AL AULA</a>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+        </div>
+
+
+
+<br>
+{% comment %}...{% endcomment %}
+    {% comment %}
+        {% for subject in subjects_by_teacher %}
+            
+            {% if subject.fk_idteacher.id == user.id  %}
+                <div class="card">
+                    <div class="card-header">
+                    <span>Aula: {{ subject.fk_idclassroom.name }}</span>  
+                    </div>
+                    <div class="card-body">
+                    <h5 class="card-title">{{ subject.name }}</h5>
+                    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                    </div>
+                </div>
+            {% endif %}
+
+        {% endfor %}
+    {% endcomment %}
+
+{% else %}
+    <p>Por favor Inicie Sesion para ver esta pagina.</p>
+{% endif %}
+
+
+{% endblock content %}

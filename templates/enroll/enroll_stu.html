@@ -1,0 +1,28 @@
+{% extends '_base.html' %}
+
+{% block title %}Registre su Curso{% endblock %}
+
+{% block content %}
+{% if user.is_authenticated %}
+    {% if user.fk_idclassroom.id == null %}
+        <form method="post">{% csrf_token %}
+            <div class="form-group">
+                <label for="my-select">Seleccione el Curso:</label>
+                <select id="my-select" class="form-control" name="fk_idclassroom">
+                    {% for class in classroom_list %}
+                        <option value="{{class.id}}" >{{class.name}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">REGISTRAR</button>
+        </form>
+    {% else %}
+        <h3>Curso Registrado!!</h3>
+        <a href="/classroom/" class="btn btn-primary">Volver</a>
+    {% endif %}
+{% else %}
+    <p>Por favor Inicie Sesion para ver esta pagina.</p>
+{% endif %}
+
+
+{% endblock content %}

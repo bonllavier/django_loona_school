@@ -1,0 +1,25 @@
+{% extends '_base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}Bienvenido al Aula Virtual{% endblock %}
+
+{% block content %}
+{% if user.is_authenticated %}
+    {% if user.role == "profesor" %}
+        <form action="" method="POST">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <div class="modal-footer">
+                <button class="btn btn-danger" href="{{'subjects'}}">Cancelar</button>
+                <button class="btn btn-primary" type="submit">GUARDAR</button>
+            </div>
+        </form>
+    {% else %}
+        <h1>NO AUTORIZADO</h1>
+    {% endif %}
+{% else %}
+    <p>Por favor Inicie Sesion para ver esta pagina.</p>
+{% endif %}
+
+
+{% endblock content %}
