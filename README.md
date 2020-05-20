@@ -2,12 +2,13 @@
 Python web application made with Django, HTML and Bootstrap
 
 ## Screenshots
-
+[![](https://raw.githubusercontent.com/javb92/django_loona_school/master/screens/pict1.JPG)](https://raw.githubusercontent.com/javb92/django_loona_school/master/screens/pict1.JPG)
+[![](https://raw.githubusercontent.com/javb92/django_loona_school/master/screens/pict2.JPG)](https://raw.githubusercontent.com/javb92/django_loona_school/master/screens/pict2.JPG)
 ## 📖 Install
 
 ```
-$ git clone https://github.com/wsvincent/djangox.git
-$ cd djangox
+$ git clone https://github.com/javb92/django_loona_school.git
+$ cd django_loona_school
 $ pipenv install
 $ pipenv shell
 
