@@ -58,6 +58,7 @@ h1 a {
 	border-radius: 50%;
 	background-color: #ccc;
 	padding: 3px;
+	border: 1px black solid;
 }
 
 
@@ -65,4 +66,10 @@ h1 a {
 
 .form_accounts {
   max-width: 400px;
+}
+
+/* FOOTER ==========*/
+.footer {
+	background: white;
+    padding: 33px;
 }
